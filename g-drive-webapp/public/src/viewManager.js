@@ -1,7 +1,26 @@
 export default class ViewManager {
   constructor() {
     this.tdbody = document.getElementById('tbody')
+    this.newFileBtn = document.getElementById('new-file-btn')
+    this.fileElem = document.getElementById('fileElem')
+
+    this.formatter = new Intl.DateTimeFormat('pt', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
   }
+
+  configureOnFileChange(fn) {
+    this.fileElem.onchange = (e) => fn(e.target.files)
+  }
+
+  configureFileBtnClick() {
+    this.newFileBtn.onclick = () => this.fileElem.click()
+  }
+
   getIcon(file) {
     return file.match(/\.mp4/i)
       ? 'movie'
@@ -27,7 +46,7 @@ export default class ViewManager {
         <tr>
         <td>${this.makeIcon(item.file)} ${item.file}</td>
         <td>${item.owner}</td>
-        <td>27 de agosto de 2021 14:10</td>
+        <td>${this.formatter.format(new Date(item.lastModified))}</td>
         <td>${item.size}</td>
     </tr>
     `
