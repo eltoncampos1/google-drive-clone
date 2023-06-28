@@ -5,7 +5,7 @@ export default class ConnectionManager {
     this.socketId = ''
   }
 
-  configureEvents(onProgress) {
+  configureEvents({ onProgress }) {
     this.ioClient.on('connect', this.onConnect.bind(this))
     this.ioClient.on('file-upload', onProgress)
   }
